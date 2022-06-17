@@ -89,3 +89,17 @@ Having already determined the number of columns, you can test each column by pla
 `' UNION SELECT NULL,NULL,'a'--`
 
 If an error does not occur, then the column is suitable for retrieving string data.
+
+### Using an SQLi UNION attack to retrieve interesting data
+
+With the good **number of columns** and found **which columns can hold string data**, you are in position to retrieve interesting data
+
+Suppose :
+- The original query return 2 columns, both compatibles with string data
+- Injection point is a quoted string within the WHERE clause
+- The database contains a table _users_ with the coluons _username_ and _password_
+
+In this situation, you can retrieve the contents of the _users_ table by submitting the input :
+
+`UNION SELECT username, password, FROM users--`
+
