@@ -23,7 +23,9 @@ There are a wide variety of SQLi :
 ## Retrieving hidden data
 
 The SQL query for : https//website.com:products?category=Gifts 
-is : `SELECT * FROM products WHERE category = 'Gifts' AND released = 1`
+is : 
+
+`SELECT * FROM products WHERE category = 'Gifts' AND released = 1`
 
 For an insecure website, an attacker can construct an attack to include inreleased products :
 
