@@ -31,3 +31,34 @@ This query return all item from the Gifts category, or 1 is equal to 1, since is
 An attacker can log in as any user without a password simply by using the comment sequence -- to remove the password check from the WHERE clause. For example :
 
 **SELECT * FROM users WHERE username = 'administrator'--' AND password = ''**
+
+## Retrieving data from other databases tables
+
+This is done using the SQLi UNION attack.
+
+The UNION keyword can be used to retrieve data from other databases, it permit to execute one or more additional SELECT queries and append the results to the original query.
+
+Example : **SELECT a, b FROM table1 UNION SELECT c, d FROM table2**
+
+This query return q result set with 2 columns, containing values from a, b in _table1_, and c, d in _table2_.
+
+2 conditions for an UNION query :
+- **the queries must return the same number of columns**
+- **data types in each column must be compatbile between the individual queries**
+
+so we need to find how many columns are being returned from the original query + which columns are compatible
+
+### Determining the number of columns required in an SQLi UNION attack
+
+1 : injecting a serie of ORDER BY clauses and incrementing the specified column index :
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+etc...
+
+2 : submitting a series of UNION SELECT payloads :
+' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+etc...
+
+for this second, if the number of nulls does not match the number of columns, the database can return an error.

