@@ -137,7 +137,7 @@ It is often necessary to gather some informations about :
 There are different ways of querying to obtain the type and version of the database :
 
 | Database type    |          Query          |
-|--------------------------------------------|
+|------------------|-------------------------|
 | Microsoft, MySQL | SELECT @@version        |
 |      Oracle      | SELECT * FROM v$version |
 |    PostgreSQL    | SELECT version()        |
