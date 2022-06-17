@@ -103,3 +103,22 @@ In this situation, you can retrieve the contents of the _users_ table by submitt
 
 `UNION SELECT username, password, FROM users--`
 
+### Retrieving multiple values within a single column
+
+Even if the query only returns 1 column, you can retrieve multiple values together within this single column by concatening the
+values together.
+In Oracle for example, you could submit this input :
+
+`'UNION SELECT username || '~' || password FROM users--`
+
+The double-pipe sequence `||` is a string concatenation operator on Oracle. The injected query concatenates the values of
+username + password separated with a " ~ ".
+
+- - -
+
+### Usefull links
+
+- [SQL Injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
+- [SQL Injection](https://portswigger.net/web-security/sql-injection)
+
+- - -

