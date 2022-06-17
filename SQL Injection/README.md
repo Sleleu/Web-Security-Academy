@@ -156,21 +156,29 @@ provide information about the database.
 
 To list the tables :
 
-```SELECT * FROM information_schema.tables```
+```
+SELECT * FROM information_schema.tables
+```
 
 To list columns in individual tables
 
-```SELECT ° FROM information_schema.columns WHERE table_name = 'Users'```
+```
+SELECT * FROM information_schema.columns WHERE table_name = 'Users'
+```
 
 For Oracle, you can obtain the same information with different queries.
 
 To list tables on Oracle :
 
-```SELECT * FROM all_tables```
+```
+SELECT * FROM all_tables
+```
 
 To list columns on Oracle :
 
-```SELECT * FROM all_tab_columns WHERE table_name = 'USERS'```
+```
+SELECT * FROM all_tab_columns WHERE table_name = 'USERS'
+```
 
 
 - - -
