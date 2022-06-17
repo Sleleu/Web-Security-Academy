@@ -1,6 +1,6 @@
 - - -
 
-### Summary
+# Summary
 
 - [SQL injection](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#sql-injection)
 - [Retrieving hidden data](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#retrieving-hidden-data)
@@ -125,6 +125,22 @@ In Oracle for example, you could submit this input :
 The double-pipe sequence `||` is a string concatenation operator on Oracle. The injected query concatenates the values of
 username + password separated with a " ~ ".
 
+
+# Examining the database before an SQL injection
+
+It is often necessary to gather some informations about :
+- type and version of the database
+- which tables and columns it contains
+
+## Querying the database type and version
+
+There are different ways of querying to obtain the type and version of the database :
+
+| Database type    |          Query          |
+|--------------------------------------------|
+| Microsoft, MySQL | SELECT @@version        |
+|      Oracle      | SELECT * FROM v$version |
+|    PostgreSQL    | SELECT version()        |
 
 
 - - -
