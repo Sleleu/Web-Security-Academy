@@ -1,3 +1,14 @@
+- - -
+
+### Summary
+
+- [SQL injection](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#sql-injection)
+- [Retrieving hidden data](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#retrieving-hidden-data)
+- [Subverting application logic](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#subverting-application-logic)
+- [Retrieving data from other databases tables (UNION ATTACKS)](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#retrieving-data-from-other-databases-tables)
+
+- - -
+
 # SQL Injection
 
 SQL injection (SQLi) allow an attacker to **interfere with the queries that an application makes to its database.**
@@ -113,6 +124,8 @@ In Oracle for example, you could submit this input :
 
 The double-pipe sequence `||` is a string concatenation operator on Oracle. The injected query concatenates the values of
 username + password separated with a " ~ ".
+
+
 
 - - -
 
