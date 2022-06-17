@@ -87,7 +87,9 @@ if the number of nulls does not match the number of columns, the database can re
 
 On Oracle, every SELECT query must use the FROM keyword and specify a valid table. A built-in table on Oracle called _dual_ can be used :
 
-`' UNION SELECT NULL FROM DUAL--`
+```
+' UNION SELECT NULL FROM DUAL--
+```
 
 On MySQL, the `--` sequence must be followed by a space. Alternatively, a `#` can be used to identify a comment
 
@@ -123,7 +125,9 @@ Even if the query only returns 1 column, you can retrieve multiple values togeth
 values together.
 In Oracle for example, you could submit this input :
 
-`'UNION SELECT username || '~' || password FROM users--`
+```
+'UNION SELECT username || '~' || password FROM users--
+```
 
 The double-pipe sequence `||` is a string concatenation operator on Oracle. The injected query concatenates the values of
 username + password separated with a " ~ ".
@@ -152,21 +156,21 @@ provide information about the database.
 
 To list the tables :
 
-`SELECT * FROM information_schema.tables`
+```SELECT * FROM information_schema.tables```
 
 To list columns in individual tables
 
-`SELECT ° FROM information_schema.columns WHERE table_name = 'Users'`
+```SELECT ° FROM information_schema.columns WHERE table_name = 'Users'```
 
 For Oracle, you can obtain the same information with different queries.
 
 To list tables on Oracle :
 
-`SELECT * FROM all_tables`
+```SELECT * FROM all_tables```
 
 To list columns on Oracle :
 
-`SELECT * FROM all_tab_columns WHERE table_name = 'USERS'`
+```SELECT * FROM all_tab_columns WHERE table_name = 'USERS'```
 
 
 - - -
@@ -175,5 +179,6 @@ To list columns on Oracle :
 
 - [SQL Injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 - [SQL Injection](https://portswigger.net/web-security/sql-injection)
+- [Columns of the Information Schema](https://www.postgresql.org/docs/12/infoschema-columns.html)
 
 - - -
