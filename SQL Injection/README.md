@@ -190,6 +190,40 @@ With blind SQLi, UNION attacks aren't effective because we can't see the results
 
 ## Exploiting blind SQLi by triggering conditional responses
 
+Consider an app that uses tracking cookies, requests to the app include a cookie header like this :
+
+```
+Cookie: TrackingId=u5YD3PapBcR4lN3e7Tj4
+```
+
+The app determine if this is a know user like this :
+
+```
+SELECT TrackingId FROM TrackedUsers WHERE TrackingId = 'u5YD3PapBcR4lN3e7Tj4'
+```
+
+Even if the results from the query aren't returned to the user, the app does behave differently depending on whether the query returns any data. For example, if a 'Welcome back' message is displayed, it's enough to exploit the blind SQLi.
+
+Suppose you have two boolean requests containing the following tracking id :
+```
+…xyz' AND '1'='1
+…xyz' AND '1'='2
+```
+These true and false booleans allows us to determine the answer to any single injected condition.
+
+In example, suppose there is a table 'Users' with the columns, 'Username' and 'Password', and a user 'Administrator'. We can have his password by **sending a series of inputs to test the password one character at a time**.
+
+```
+xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) > 'm
+```
+
+If this input return a Welcome back message, it mean the first char of the password is greater than m
+
+```
+xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) = 's
+```
+
+If we have a welcome back message, it mean the first letter is 's'.
 
 - - -
 
