@@ -7,6 +7,7 @@
 - [Subverting application logic](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#subverting-application-logic)
 - [Retrieving data from other databases tables (UNION ATTACKS)](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#retrieving-data-from-other-databases-tables)
 - [Examining the database before an SQL injection](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#examining-the-database-before-an-sql-injection)
+- [Blind SQL injection vulnerabilities](https://github.com/Sleleu/Web-Security-Academy/tree/main/SQL%20Injection#blind-sql-injection-vulnerabilities)
 
 - - -
 
