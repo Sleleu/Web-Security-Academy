@@ -181,6 +181,14 @@ To list columns on Oracle :
 SELECT * FROM all_tab_columns WHERE table_name = 'USERS'
 ```
 
+# Blind SQL injection vulnerabilities
+
+Sometimes, an application is vulnerable to SQLi, but its HTTP responses do not contain the results of the SQL query or the details of databases errors.
+
+With blind SQLi, UNION attacks aren't effective because we can't see the results.
+
+## Exploiting blind SQLi by triggering conditional responses
+
 
 - - -
 
